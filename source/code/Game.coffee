@@ -1,9 +1,9 @@
 define "Game", [ "Images", "Rendering", "Input", "MainLoop", "Logic", "Graphics" ], ( Images, Rendering, Input, MainLoop, Logic, Graphics )->
 	imagePaths = [
-		"images/gladiator.png"
-		"images/spear.png"
-		"images/sword.png"
-		"images/shield.png" ]
+		"images/gladiator-front.png"
+		"images/spear-front.png"
+		"images/sword-front.png"
+		"images/shield-front.png" ]
 
 	Images.loadImages imagePaths, ( rawImages ) ->
 		images = Images.process( rawImages )

@@ -6,14 +6,14 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 
 	appendGladiator = ( renderables, position ) ->
 		renderable = Rendering.createRenderable( "image" )
-		renderable.resourceId = "images/gladiator.png"
+		renderable.resourceId = "images/gladiator-front.png"
 		renderable.position   = position
 
 		renderables.push( renderable )
 
 	appendWeapon = ( renderables, weapon, gladiatorPosition ) ->
 		renderable = Rendering.createRenderable( "image" )
-		renderable.resourceId = "images/#{ weapon }.png"
+		renderable.resourceId = "images/#{ weapon }-front.png"
 
 		position = Vec2.copy( gladiatorPosition )
 		Vec2.add( position, weaponOffsets[ weapon ] )
