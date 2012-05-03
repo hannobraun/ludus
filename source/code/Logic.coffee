@@ -12,6 +12,7 @@ define "Logic", [ "Input", "Entities" ], ( Input, Entities ) ->
 					"positions": args.position
 					"gladiators":
 						weapon: args.weapon
+						facing: args.facing
 
 	# There are functions for creating and destroying entities in the Entities
 	# module. We will mostly use shortcuts however. They are declared here and
@@ -45,13 +46,29 @@ define "Logic", [ "Input", "Entities" ], ( Input, Entities ) ->
 
 			createEntity( "gladiator", {
 				position: [ -160, -100 ]
-				weapon  : "spear" } )
+				weapon  : "spear"
+				facing  : "front" } )
 			createEntity( "gladiator", {
 				position: [ 0, -100 ]
-				weapon  : "sword" } )
+				weapon  : "sword"
+				facing  : "front" } )
 			createEntity( "gladiator", {
 				position: [ 160, -100 ]
-				weapon  : "shield" } )
+				weapon  : "shield"
+				facing  : "front" } )
+
+			createEntity( "gladiator", {
+				position: [ -160, 100 ]
+				weapon  : "spear"
+				facing  : "back" } )
+			createEntity( "gladiator", {
+				position: [ 0, 100 ]
+				weapon  : "sword"
+				facing  : "back" } )
+			createEntity( "gladiator", {
+				position: [ 160, 100 ]
+				weapon  : "shield"
+				facing  : "back" } )
 
 		updateGameState: ( gameState, currentInput, timeInS, passedTimeInS ) ->
 			

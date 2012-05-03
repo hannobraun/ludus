@@ -1,22 +1,29 @@
 define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 ) ->
 	weaponOffsets =
-		"spear" : [ -6,  8 ]
-		"sword" : [ -2, -2 ]
-		"shield": [  0,  4 ]
+		"spear" :
+			front: [ -6,  8 ]
+			back : [  6,  8 ]
+		"sword":
+			front: [ -2, -2 ]
+			back : [ -2, -2 ]
+		"shield":
+			front: [  0,  4 ]
+			back : [  0,  4 ]
 
-	appendGladiator = ( renderables, position ) ->
+	appendGladiator = ( renderables, position, gladiator ) ->
 		renderable = Rendering.createRenderable( "image" )
-		renderable.resourceId = "images/gladiator-front.png"
+		renderable.resourceId = "images/gladiator-#{ gladiator.facing }.png"
 		renderable.position   = position
 
 		renderables.push( renderable )
 
-	appendWeapon = ( renderables, weapon, gladiatorPosition ) ->
+	appendWeapon = ( renderables, weapon, facing, gladiatorPosition ) ->
 		renderable = Rendering.createRenderable( "image" )
-		renderable.resourceId = "images/#{ weapon }-front.png"
+		renderable.resourceId = "images/#{ weapon }-#{ facing }.png"
 
 		position = Vec2.copy( gladiatorPosition )
-		Vec2.add( position, weaponOffsets[ weapon ] )
+		offset   = weaponOffsets[ weapon ][ facing ]
+		Vec2.add( position, offset )
 		renderable.position = position
 
 		renderables.push( renderable )
@@ -39,10 +46,12 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 
 				appendGladiator(
 					renderState.renderables,
-					position )
+					position,
+					gladiator )
 				appendWeapon(
 					renderState.renderables,
 					gladiator.weapon,
+					gladiator.facing,
 					position )
 
 
