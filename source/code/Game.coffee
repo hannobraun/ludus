@@ -3,7 +3,11 @@ define "Game", [ "Images", "Rendering", "Input", "MainLoop", "Logic", "Graphics"
 		"images/gladiator-front.png"
 		"images/spear-front.png"
 		"images/sword-front.png"
-		"images/shield-front.png" ]
+		"images/shield-front.png"
+		"images/gladiator-back.png"
+		"images/spear-back.png"
+		"images/sword-back.png"
+		"images/shield-back.png" ]
 
 	Images.loadImages imagePaths, ( rawImages ) ->
 		images = Images.process( rawImages )
