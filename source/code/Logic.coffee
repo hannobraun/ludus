@@ -2,21 +2,16 @@ define "Logic", [ "Input", "Entities" ], ( Input, Entities ) ->
 	nextEntityId = 0
 
 	entityFactories =
-		"myEntity": ( args ) ->
-			movement =
-				center: args.center
-				radius: args.radius
-				speed : args.speed
-
+		"gladiator": ( args ) ->
 			id = nextEntityId
 			nextEntityId += 1
 
 			entity =
 				id: id
 				components:
-					"positions": [ 0, 0 ]
-					"movements": movement
-					"imageIds" : "images/star.png"
+					"positions": args.position
+					"gladiators":
+						weapon: args.weapon
 
 	# There are functions for creating and destroying entities in the Entities
 	# module. We will mostly use shortcuts however. They are declared here and
@@ -48,19 +43,15 @@ define "Logic", [ "Input", "Entities" ], ( Input, Entities ) ->
 					gameState.components,
 					entityId )
 
-			createEntity( "myEntity", {
-				center: [ 0, 0 ]
-				radius: 50,
-				speed : 2 } )
-			createEntity( "myEntity", {
-				center: [ 0, 0 ]
-				radius: 100,
-				speed : -1 } )
+			createEntity( "gladiator", {
+				position: [ -160, -100 ]
+				weapon  : "spear" } )
+			createEntity( "gladiator", {
+				position: [ 0, -100 ]
+				weapon  : "sword" } )
+			createEntity( "gladiator", {
+				position: [ 160, -100 ]
+				weapon  : "shield" } )
 
 		updateGameState: ( gameState, currentInput, timeInS, passedTimeInS ) ->
-			for entityId, position of gameState.components.positions
-				movement = gameState.components.movements[ entityId ]
-
-				angle = timeInS * movement.speed
-				position[ 0 ] = movement.radius * Math.cos( angle )
-				position[ 1 ] = movement.radius * Math.sin( angle )
+			

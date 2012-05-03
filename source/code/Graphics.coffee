@@ -4,6 +4,13 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 		"sword" : [ -2, -2 ]
 		"shield": [  0,  4 ]
 
+	appendGladiator = ( renderables, position ) ->
+		renderable = Rendering.createRenderable( "image" )
+		renderable.resourceId = "images/gladiator.png"
+		renderable.position   = position
+
+		renderables.push( renderable )
+
 	appendWeapon = ( renderables, weapon, gladiatorPosition ) ->
 		renderable = Rendering.createRenderable( "image" )
 		renderable.resourceId = "images/#{ weapon }.png"
@@ -27,20 +34,16 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 
 			renderState.renderables.length = 0
 
+			for entityId, gladiator of gameState.components.gladiators
+				position = gameState.components.positions[ entityId ]
 
-			gladiatorPosition = [ 50, 50 ]
-
-
-			renderable = Rendering.createRenderable( "image" )
-			renderable.resourceId = "images/gladiator.png"
-			renderable.position   = gladiatorPosition
-
-			renderState.renderables.push( renderable )
-
-			appendWeapon(
-				renderState.renderables,
-				"shield",
-				gladiatorPosition )
+				appendGladiator(
+					renderState.renderables,
+					position )
+				appendWeapon(
+					renderState.renderables,
+					gladiator.weapon,
+					position )
 
 
 			Camera.transformRenderables(
