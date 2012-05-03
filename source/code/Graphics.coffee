@@ -11,14 +11,11 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 
 			renderState.renderables.length = 0
 
-			for entityId, position of gameState.components.positions
-				imageId = gameState.components.imageIds[ entityId ]
+			renderable = Rendering.createRenderable( "image" )
+			renderable.resourceId = "images/gladiator.png"
+			renderable.position   = [ 0, 0 ]
 
-				renderable = Rendering.createRenderable( "image" )
-				renderable.resourceId = imageId
-				renderable.position   = Vec2.copy( position )
-
-				renderState.renderables.push( renderable )
+			renderState.renderables.push( renderable )
 
 
 			Camera.transformRenderables(

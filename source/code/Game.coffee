@@ -1,5 +1,8 @@
 define "Game", [ "Images", "Rendering", "Input", "MainLoop", "Logic", "Graphics" ], ( Images, Rendering, Input, MainLoop, Logic, Graphics )->
-	Images.loadImages [ "images/star.png" ], ( rawImages ) ->
+	imagePaths = [
+		"images/gladiator.png" ]
+
+	Images.loadImages imagePaths, ( rawImages ) ->
 		images = Images.process( rawImages )
 
 		renderData =
