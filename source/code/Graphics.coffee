@@ -4,8 +4,8 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 			front: [ -6,  8 ]
 			back : [  6,  8 ]
 		"sword":
-			front: [ -2, -2 ]
-			back : [ -2, -2 ]
+			front: [ -4, -4 ]
+			back : [  4, -4 ]
 		"shield":
 			front: [  0,  4 ]
 			back : [  0,  4 ]
