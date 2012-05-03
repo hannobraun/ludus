@@ -1,0 +1,9 @@
+[submodule "vendor/noop"]
+	path = vendor/noop
+	url = git://github.com/hbraun/noop.git
+[submodule "vendor/mocha"]
+	path = vendor/mocha
+	url = git://github.com/visionmedia/mocha.git
+[submodule "vendor/expect.js"]
+	path = vendor/expect.js
+	url = git://github.com/LearnBoost/expect.js.git
