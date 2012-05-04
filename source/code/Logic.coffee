@@ -1,21 +1,6 @@
-define "Logic", [ "Input", "Entities" ], ( Input, Entities ) ->
-	initialGladiatorHealth = 50
-
-	nextGladiatorId = 0
-
+define "Logic", [ "Input", "Entities", "Gladiators" ], ( Input, Entities, Gladiators ) ->
 	entityFactories =
-		"gladiator": ( args ) ->
-			id = nextGladiatorId
-			nextGladiatorId += 1
-
-			entity =
-				id: id
-				components:
-					"positions": args.position
-					"gladiators":
-						weapon: args.weapon
-						facing: args.facing
-						health: initialGladiatorHealth
+		"gladiator": Gladiators.createEntity
 
 	# There are functions for creating and destroying entities in the Entities
 	# module. We will mostly use shortcuts however. They are declared here and
