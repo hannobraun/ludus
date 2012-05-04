@@ -1,12 +1,12 @@
 define "Logic", [ "Input", "Entities" ], ( Input, Entities ) ->
 	initialGladiatorHealth = 50
-	
-	nextEntityId = 0
+
+	nextGladiatorId = 0
 
 	entityFactories =
 		"gladiator": ( args ) ->
-			id = nextEntityId
-			nextEntityId += 1
+			id = nextGladiatorId
+			nextGladiatorId += 1
 
 			entity =
 				id: id
