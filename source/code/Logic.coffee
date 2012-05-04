@@ -35,28 +35,34 @@ define "Logic", [ "Input", "Entities", "Gladiators" ], ( Input, Entities, Gladia
 			createEntity( "gladiator", {
 				position: [ -160, -100 ]
 				weapon  : "spear"
-				facing  : "front" } )
+				facing  : "front",
+				side    : "ai" } )
 			createEntity( "gladiator", {
 				position: [ 0, -100 ]
 				weapon  : "sword"
-				facing  : "front" } )
+				facing  : "front",
+				side    : "ai" } )
 			createEntity( "gladiator", {
 				position: [ 160, -100 ]
 				weapon  : "shield"
-				facing  : "front" } )
+				facing  : "front",
+				side    : "ai" } )
 
 			createEntity( "gladiator", {
 				position: [ -160, 100 ]
 				weapon  : "spear"
-				facing  : "back" } )
+				facing  : "back",
+				side    : "player" } )
 			createEntity( "gladiator", {
 				position: [ 0, 100 ]
 				weapon  : "sword"
-				facing  : "back" } )
+				facing  : "back",
+				side    : "player" } )
 			createEntity( "gladiator", {
 				position: [ 160, 100 ]
 				weapon  : "shield"
-				facing  : "back" } )
+				facing  : "back",
+				side    : "player" } )
 
 		updateGameState: ( gameState, currentInput, timeInS, passedTimeInS ) ->
 			

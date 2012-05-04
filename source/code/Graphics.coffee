@@ -16,6 +16,11 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 		"block"   : "Blocking..."
 		"cooldown": ""
 
+	selectionSize = [ 110, 150 ]
+
+	selectionOffset = Vec2.copy( selectionSize )
+	Vec2.scale( selectionOffset, 0.5 )
+
 	appendBar = ( renderables, centerPosition, maxWidth, width, height, color ) ->
 		position = Vec2.copy( centerPosition )
 		Vec2.add( position, [ -maxWidth / 2, 0 ] )
@@ -134,6 +139,22 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				gladiator,
 				position )
 
+	appendSelector = ( renderables, gladiators, positions ) ->
+		for entityId, gladiator of gladiators
+			if gladiator.selected
+				position = positions[ entityId ]
+
+				selectionPosition = Vec2.copy( position )
+				Vec2.subtract( selectionPosition, selectionOffset )
+
+				selection = Rendering.createRenderable( "rectangleOutline" )
+				selection.position = selectionPosition
+				selection.resource =
+					size : selectionSize
+					color: "rgb(0,0,0)"
+
+				renderables.push( selection )
+
 	module =
 		createRenderState: ->
 			renderState =
@@ -147,6 +168,10 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 
 
 			appendGladiators(
+				renderState.renderables,
+				gameState.components.gladiators,
+				gameState.components.positions )
+			appendSelector(
 				renderState.renderables,
 				gameState.components.gladiators,
 				gameState.components.positions )

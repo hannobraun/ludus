@@ -2,8 +2,9 @@ define "Gladiators", [], ->
 	nextEntityId = 0
 
 	maxChargeByAction =
-		"attack": 100
-		"block" : 20
+		"attack"  : 100
+		"block"   : 20
+		"cooldown": 50
 
 	maxCharge = 0
 	for action, maxChargeForAction of maxChargeByAction
@@ -24,9 +25,12 @@ define "Gladiators", [], ->
 				components:
 					"positions": args.position
 					"gladiators":
+						side  : args.side
 						weapon: args.weapon
 						facing: args.facing
 						health: module.maxHealth
 
-						action: "block"
-						charge: 10
+						selected: true
+
+						action: "ready"
+						charge: 0
