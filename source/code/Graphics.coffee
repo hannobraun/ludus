@@ -100,7 +100,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 			normWidth = 80
 			maxWidth = maxChargeForAction / Gladiators.maxCharge * normWidth
 			width  = gladiator.charge / maxChargeForAction * maxWidth
-			height = 10
+			height = 7
 
 			color = "rgb(255,255,255)"
 
