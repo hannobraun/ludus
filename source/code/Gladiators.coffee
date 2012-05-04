@@ -1,8 +1,19 @@
 define "Gladiators", [], ->
 	nextEntityId = 0
 
+	maxChargeByAction =
+		"attack": 100
+		"block" : 20
+
+	maxCharge = 0
+	for action, maxChargeForAction of maxChargeByAction
+		maxCharge = Math.max( maxCharge, maxChargeForAction )
+
 	module =
 		maxHealth: 50
+
+		maxChargeByAction: maxChargeByAction
+		maxCharge: maxCharge
 
 		createEntity: ( args ) ->
 			id = nextEntityId
@@ -17,5 +28,5 @@ define "Gladiators", [], ->
 						facing: args.facing
 						health: module.maxHealth
 
-						action: "ready"
-						charge: 0
+						action: "attack"
+						charge: 10
