@@ -10,6 +10,9 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 			front: [  0,  4 ]
 			back : [  0,  4 ]
 
+	healthBarWidth  = 60
+	healthBarHeight = 20
+
 	appendGladiator = ( renderables, position, gladiator ) ->
 		renderable = Rendering.createRenderable( "image" )
 		renderable.resourceId = "images/gladiator-#{ gladiator.facing }.png"
@@ -27,6 +30,25 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 		renderable.position = position
 
 		renderables.push( renderable )
+
+	appendHealthBar = ( renderables, gladiatorPosition ) ->
+		position = Vec2.copy( gladiatorPosition )
+		Vec2.add( position, [ -healthBarWidth / 2, -60 ] )
+
+		bar = Rendering.createRenderable( "rectangle" )
+		bar.position = position
+		bar.resource =
+			size : [ healthBarWidth, healthBarHeight ]
+			color: "rgb(255,0,0)"
+
+		border = Rendering.createRenderable( "rectangleOutline" )
+		border.position = position
+		border.resource =
+			size : [ healthBarWidth, healthBarHeight ]
+			color: "rgb(0,0,0)"
+
+		renderables.push( bar )
+		renderables.push( border )
 
 
 	module =
@@ -52,6 +74,9 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 					renderState.renderables,
 					gladiator.weapon,
 					gladiator.facing,
+					position )
+				appendHealthBar(
+					renderState.renderables,
 					position )
 
 
