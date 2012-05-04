@@ -1,4 +1,4 @@
-define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 ) ->
+define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering, Camera, Vec2, Gladiators ) ->
 	weaponOffsets =
 		"spear" :
 			front: [ -6,  8 ]
@@ -31,14 +31,16 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 
 		renderables.push( renderable )
 
-	appendHealthBar = ( renderables, gladiatorPosition ) ->
+	appendHealthBar = ( renderables, gladiator, gladiatorPosition ) ->
 		position = Vec2.copy( gladiatorPosition )
 		Vec2.add( position, [ -healthBarWidth / 2, -60 ] )
+
+		barWidth = healthBarWidth * gladiator.health / Gladiators.maxHealth
 
 		bar = Rendering.createRenderable( "rectangle" )
 		bar.position = position
 		bar.resource =
-			size : [ healthBarWidth, healthBarHeight ]
+			size : [ barWidth, healthBarHeight ]
 			color: "rgb(255,0,0)"
 
 		border = Rendering.createRenderable( "rectangleOutline" )
@@ -77,6 +79,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2" ], ( Rendering, Camera, Vec2 
 					position )
 				appendHealthBar(
 					renderState.renderables,
+					gladiator,
 					position )
 
 
