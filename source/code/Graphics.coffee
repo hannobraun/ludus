@@ -112,6 +112,28 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				height,
 				color )
 
+	appendGladiators = ( renderables, gladiators, positions ) ->
+		for entityId, gladiator of gladiators
+			position = positions[ entityId ]
+
+			appendGladiator(
+				renderables,
+				position,
+				gladiator )
+			appendWeapon(
+				renderables,
+				gladiator.weapon,
+				gladiator.facing,
+				position )
+			appendHealthBar(
+				renderables,
+				gladiator,
+				position )
+			appendAction(
+				renderables,
+				gladiator,
+				position )
+
 	module =
 		createRenderState: ->
 			renderState =
@@ -121,29 +143,13 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 		updateRenderState: ( renderState, gameState ) ->
 			renderState.camera.position = Vec2.copy( gameState.focus )
 
-
 			renderState.renderables.length = 0
 
-			for entityId, gladiator of gameState.components.gladiators
-				position = gameState.components.positions[ entityId ]
 
-				appendGladiator(
-					renderState.renderables,
-					position,
-					gladiator )
-				appendWeapon(
-					renderState.renderables,
-					gladiator.weapon,
-					gladiator.facing,
-					position )
-				appendHealthBar(
-					renderState.renderables,
-					gladiator,
-					position )
-				appendAction(
-					renderState.renderables,
-					gladiator,
-					position )
+			appendGladiators(
+				renderState.renderables,
+				gameState.components.gladiators,
+				gameState.components.positions )
 
 
 			Camera.transformRenderables(
