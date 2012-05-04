@@ -16,7 +16,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 		"block"   : "Blocking..."
 		"cooldown": ""
 
-	appendBar = ( renderables, centerPosition, maxWidth, width, height ) ->
+	appendBar = ( renderables, centerPosition, maxWidth, width, height, color ) ->
 		position = Vec2.copy( centerPosition )
 		Vec2.add( position, [ -maxWidth / 2, 0 ] )
 
@@ -24,7 +24,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 		bar.position = position
 		bar.resource =
 			size : [ width, height ]
-			color: "rgb(255,0,0)"
+			color: color
 
 		border = Rendering.createRenderable( "rectangleOutline" )
 		border.position = position
@@ -61,12 +61,15 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 		width    = maxWidth * gladiator.health / Gladiators.maxHealth
 		height   = 20
 
+		color = "rgb(255,0,0)"
+
 		appendBar(
 			renderables,
 			position,
 			maxWidth,
 			width,
-			height )
+			height,
+			color )
 
 	appendAction = ( renderables, gladiator, gladiatorPosition ) ->
 		statusPosition = Vec2.copy( gladiatorPosition )
@@ -99,12 +102,15 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 			width  = gladiator.charge / maxChargeForAction * maxWidth
 			height = 10
 
+			color = "rgb(255,255,255)"
+
 			appendBar(
 				renderables,
 				barPosition,
 				maxWidth,
 				width,
-				height )
+				height,
+				color )
 
 	module =
 		createRenderState: ->
