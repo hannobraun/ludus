@@ -11,9 +11,10 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 			back : [  0,  4 ]
 
 	actionTexts =
-		"ready" : "Ready!"
-		"attack": "Attacking..."
-		"block" : "Blocking..."
+		"ready"   : "Ready!"
+		"attack"  : "Attacking..."
+		"block"   : "Blocking..."
+		"cooldown": ""
 
 	appendBar = ( renderables, centerPosition, maxWidth, width, height ) ->
 		position = Vec2.copy( centerPosition )
@@ -86,7 +87,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 		renderables.push( status )
 
 
-		unless gladiator.action == "ready"
+		unless gladiator.action == "ready" || gladiator.action == "cooldown"
 			barPosition = Vec2.copy( statusPosition )
 			Vec2.add( barPosition, [ 0, 8 ] )
 

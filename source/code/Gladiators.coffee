@@ -28,5 +28,5 @@ define "Gladiators", [], ->
 						facing: args.facing
 						health: module.maxHealth
 
-						action: "attack"
+						action: "block"
 						charge: 10
