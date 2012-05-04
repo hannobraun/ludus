@@ -52,6 +52,24 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 		renderables.push( bar )
 		renderables.push( border )
 
+	appendAction = ( renderables, gladiator, gladiatorPosition ) ->
+		position = Vec2.copy( gladiatorPosition )
+		Vec2.add( position, [ 0, 50 ] )
+
+		text = Rendering.createRenderable( "text" )
+		text.position = position
+		text.resource =
+			string  : "Ready!"
+			centered: true
+			border  : false
+
+			font       : "bold 15pt Arial Black"
+			textColor  : "rgb(0,0,0)"
+			borderColor: "rgb(0,0,0)"
+			borderWidth: 2
+
+		renderables.push( text )
+
 
 	module =
 		createRenderState: ->
@@ -78,6 +96,10 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 					gladiator.facing,
 					position )
 				appendHealthBar(
+					renderState.renderables,
+					gladiator,
+					position )
+				appendAction(
 					renderState.renderables,
 					gladiator,
 					position )

@@ -16,3 +16,6 @@ define "Gladiators", [], ->
 						weapon: args.weapon
 						facing: args.facing
 						health: module.maxHealth
+
+						action: "ready"
+						charge: 0
