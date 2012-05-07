@@ -78,3 +78,6 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 			Gladiators.updateActions(
 				gameState.components.gladiators,
 				passedTimeInS )
+			Gladiators.killGladiators(
+				gameState.components.gladiators,
+				destroyEntity )

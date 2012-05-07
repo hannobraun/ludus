@@ -39,6 +39,7 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 
 						health: module.maxHealth
 						weapon: args.weapon
+						target: null
 
 						highlighted: false
 						selected   : false
@@ -87,22 +88,34 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 
 		updateActions: ( gladiators, passedTimeInS ) ->
 			for entityId, gladiator of gladiators
-				if maxChargeByAction[ gladiator.action ]?
-					gladiator.charge += chargePerS * passedTimeInS
+				if gladiators[ gladiator.target ]? or gladiator.action == "cooldown"
+					if maxChargeByAction[ gladiator.action ]?
+						gladiator.charge += chargePerS * passedTimeInS
 
-				maxCharge = maxChargeByAction[ gladiator.action ]
-				if gladiator.charge >= maxCharge
+					maxCharge = maxChargeByAction[ gladiator.action ]
+					if gladiator.charge >= maxCharge
+						gladiator.charge = 0
+
+						target = gladiators[ gladiator.target ]
+						damage = weaponDamage[ gladiator.weapon ]
+
+						switch gladiator.action
+							when "attack"
+								target.health -= damage
+							when "block"
+								""
+
+						gladiator.action = switch gladiator.action
+							when "cooldown" then "ready"
+							else "cooldown"
+
+						gladiator.target = null
+				else
+					gladiator.target = null
 					gladiator.charge = 0
+					gladiator.action = "ready"
 
-					target = gladiators[ gladiator.target ]
-					damage = weaponDamage[ gladiator.weapon ]
-
-					switch gladiator.action
-						when "attack"
-							target.health -= damage
-						when "block"
-							""
-
-					gladiator.action = switch gladiator.action
-						when "cooldown" then "ready"
-						else "cooldown"
+		killGladiators: ( gladiators, destroyEntity ) ->
+			for entityId, gladiator of gladiators
+				if gladiator.health <= 0
+					destroyEntity( entityId )
