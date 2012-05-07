@@ -227,6 +227,8 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools" ], ( R
 					blockButtonPosition = Vec2.copy( position )
 					Vec2.add( blockButtonPosition, blockButtonOffset )
 
+					blockButtonActive = gladiator.action == "attack"
+
 					appendActionButton(
 						renderables,
 						currentInput,
@@ -238,7 +240,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools" ], ( R
 						currentInput,
 						"Block",
 						blockButtonPosition,
-						false )
+						blockButtonActive )
 
 
 	module =
