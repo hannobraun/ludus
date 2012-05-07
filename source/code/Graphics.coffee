@@ -168,7 +168,11 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 	attackButtonOffset = [ 0,  0 ]
 	blockButtonOffset  = [ 0, 30 ]
 
-	appendActionButton = ( renderables, text, center ) ->
+	appendActionButton = ( renderables, text, center, active ) ->
+		alpha = switch active
+			when true  then "1.0"
+			when false then "0.5"
+
 		position = Vec2.copy( center )
 		Vec2.add( position, actionButtonOffset )
 
@@ -185,7 +189,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 			centered: [ true, true ]
 
 			font     : "bold 13pt Arial Black"
-			textColor: "rgb(0,0,0)"
+			textColor: "rgba(0,0,0,#{ alpha })"
 			size     : 13
 
 			border     : false
@@ -210,11 +214,13 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				appendActionButton(
 					renderables,
 					"Attack",
-					attackButtonPosition )
+					attackButtonPosition,
+					true )
 				appendActionButton(
 					renderables,
 					"Block",
-					blockButtonPosition )
+					blockButtonPosition,
+					false )
 
 
 	module =
