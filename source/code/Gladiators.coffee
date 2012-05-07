@@ -10,7 +10,7 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 	for action, maxChargeForAction of maxChargeByAction
 		maxCharge = Math.max( maxCharge, maxChargeForAction )
 
-	chargePerS = 60
+	chargePerS = 20
 
 	module =
 		maxHealth: 50
@@ -81,10 +81,12 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 
 		updateActions: ( gladiators, passedTimeInS ) ->
 			for entityId, gladiator of gladiators
-				unless gladiator.action == "ready"
+				if maxChargeByAction[ gladiator.action ]?
 					gladiator.charge += chargePerS * passedTimeInS
 
 				maxCharge = maxChargeByAction[ gladiator.action ]
 				if gladiator.charge >= maxCharge
 					gladiator.charge = 0
-					gladiator.action = "ready"
+					gladiator.action = switch gladiator.action
+						when "cooldown" then "ready"
+						else "cooldown"
