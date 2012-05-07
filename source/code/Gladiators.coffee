@@ -43,10 +43,12 @@ define "Gladiators", [ "ModifiedInput" ], ( Input ) ->
 				if gladiator.side == "player" and gladiator.action == "ready"
 					position = positions[ entityId ]
 
-					minX = position[ 0 ] - module.selectionRectangleSize[ 0 ] / 2
-					minY = position[ 1 ] - module.selectionRectangleSize[ 1 ] / 2
-					maxX = position[ 0 ] + module.selectionRectangleSize[ 0 ] / 2
-					maxY = position[ 1 ] + module.selectionRectangleSize[ 1 ] / 2
+					rectangleSize = module.selectionRectangleSize
+
+					minX = position[ 0 ] - rectangleSize[ 0 ] / 2
+					minY = position[ 1 ] - rectangleSize[ 1 ] / 2
+					maxX = position[ 0 ] + rectangleSize[ 0 ] / 2
+					maxY = position[ 1 ] + rectangleSize[ 1 ] / 2
 
 					pointerX = currentInput.pointerPosition[ 0 ]
 					pointerY = currentInput.pointerPosition[ 1 ]
