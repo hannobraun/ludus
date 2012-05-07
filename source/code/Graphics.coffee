@@ -215,29 +215,30 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools" ], ( R
 
 			renderables.push( border )
 
-	appendActionButtons = ( renderables, currentInput, gladiators, positions ) ->
-		for entityId, gladiator of gladiators
-			if gladiator.highlighted and gladiator.side == "ai"
-				position = positions[ entityId ]
+	appendActionButtons = ( renderables, currentInput, gladiators, positions, gameState ) ->
+		unless gameState.gladiatorSelection.currentlySelected == null
+			for entityId, gladiator of gladiators
+				if gladiator.highlighted and gladiator.side == "ai"
+					position = positions[ entityId ]
 
-				attackButtonPosition = Vec2.copy( position )
-				Vec2.add( attackButtonPosition, attackButtonOffset )
+					attackButtonPosition = Vec2.copy( position )
+					Vec2.add( attackButtonPosition, attackButtonOffset )
 
-				blockButtonPosition = Vec2.copy( position )
-				Vec2.add( blockButtonPosition, blockButtonOffset )
+					blockButtonPosition = Vec2.copy( position )
+					Vec2.add( blockButtonPosition, blockButtonOffset )
 
-				appendActionButton(
-					renderables,
-					currentInput,
-					"Attack",
-					attackButtonPosition,
-					true )
-				appendActionButton(
-					renderables,
-					currentInput,
-					"Block",
-					blockButtonPosition,
-					false )
+					appendActionButton(
+						renderables,
+						currentInput,
+						"Attack",
+						attackButtonPosition,
+						true )
+					appendActionButton(
+						renderables,
+						currentInput,
+						"Block",
+						blockButtonPosition,
+						false )
 
 
 	module =
@@ -262,7 +263,8 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools" ], ( R
 				renderState.renderables,
 				currentInput,
 				gameState.components.gladiators,
-				gameState.components.positions )
+				gameState.components.positions,
+				gameState )
 
 
 			Camera.transformRenderables(
