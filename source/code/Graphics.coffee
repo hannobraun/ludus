@@ -75,22 +75,23 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 			color )
 
 	appendAction = ( renderables, gladiator, gladiatorPosition ) ->
-		statusPosition = Vec2.copy( gladiatorPosition )
-		Vec2.add( statusPosition, [ 0, 50 ] )
+		unless gladiator.side == "ai" and gladiator.action == "ready"
+			statusPosition = Vec2.copy( gladiatorPosition )
+			Vec2.add( statusPosition, [ 0, 50 ] )
 
-		status = Rendering.createRenderable( "text" )
-		status.position = statusPosition
-		status.resource =
-			string  : actionTexts[ gladiator.action ]
-			centered: true
-			border  : false
+			status = Rendering.createRenderable( "text" )
+			status.position = statusPosition
+			status.resource =
+				string  : actionTexts[ gladiator.action ]
+				centered: true
+				border  : false
 
-			font       : "bold 13pt Arial Black"
-			textColor  : "rgb(0,0,0)"
-			borderColor: "rgb(0,0,0)"
-			borderWidth: 2
+				font       : "bold 13pt Arial Black"
+				textColor  : "rgb(0,0,0)"
+				borderColor: "rgb(0,0,0)"
+				borderWidth: 2
 
-		renderables.push( status )
+			renderables.push( status )
 
 
 		unless gladiator.action == "ready" || gladiator.action == "cooldown"
