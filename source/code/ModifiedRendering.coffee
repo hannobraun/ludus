@@ -62,7 +62,9 @@ define "ModifiedRendering", [], ->
 					rectangle.size[ 1 ] )
 
 			"rectangleOutline": ( renderable, context, rectangle ) ->
+				context.lineWidth   = rectangle.lineWidth || 1
 				context.strokeStyle = rectangle.color || "rgb(0,0,0)"
+				
 				context.strokeRect(
 					renderable.position[ 0 ],
 					renderable.position[ 1 ],
