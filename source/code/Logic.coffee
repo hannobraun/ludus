@@ -16,6 +16,11 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 		if playerGladiators == 0
 			gameState.winner = "ai"
 
+	resetGame = ( gameState, currentInput ) ->
+		unless gameState.winner == 0
+			if Input.isKeyDown( currentInput, "enter" )
+				gameState.reset = true
+
 
 	# There are functions for creating and destroying entities in the Entities
 	# module. We will mostly use shortcuts however. They are declared here and
@@ -32,6 +37,7 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 				clickedButton: null
 
 				winner: null
+				reset : false
 
 				# Game entities are made up of components. The components will
 				# be stored in this map.
@@ -98,6 +104,10 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 			Gladiators.killGladiators(
 				gameState.components.gladiators,
 				destroyEntity )
+
 			determineWinner(
 				gameState,
 				gameState.components.gladiators )
+			resetGame(
+				gameState,
+				currentInput )

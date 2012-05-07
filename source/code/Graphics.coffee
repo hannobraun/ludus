@@ -260,20 +260,35 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "Modi
 				when "player" then "You won!"
 
 			youWonLost = Rendering.createRenderable( "text" )
-			youWonLost.position = [ 0, 0 ]
+			youWonLost.position = [ 0, -50 ]
 			youWonLost.resource =
 				string  : text
 				centered: [ true, true ]
 
 				font     : "bold 45pt Arial Black"
-				textColor: "rgba(0,0,0)"
+				textColor: "rgb(0,0,0)"
 				size     : 45
 
 				border     : false
 				borderColor: "rgb(0,0,0)"
 				borderWidth: 2
 
+			pressToRestart = Rendering.createRenderable( "text" )
+			pressToRestart.position = [ 0, 0 ]
+			pressToRestart.resource =
+				string  : "(press enter to restart)"
+				centered: [ true, true ]
+
+				font     : "bold 25pt Arial Black"
+				textColor: "rgb(0,0,0)"
+				size     : 25
+
+				border     : false
+				borderColor: "rgb(0,0,0)"
+				borderWidth: 2
+
 			renderables.push( youWonLost )
+			renderables.push( pressToRestart )
 
 
 	module =

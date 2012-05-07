@@ -93,3 +93,8 @@ define "Game", [ "Images", "ModifiedRendering", "ModifiedInput", "MainLoop", "Lo
 				display,
 				renderData,
 				renderState.renderables )
+
+			if gameState.reset
+				gameState = Logic.createGameState()
+				Logic.initGameState( gameState )
+				renderState = Graphics.createRenderState()
