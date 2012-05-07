@@ -1,4 +1,4 @@
-define "Rendering", [], ->
+define "ModifiedRendering", [], ->
 	module =
 		# The draw functions were written as needed for specific purposes and
 		# then moved into the library. They could use some cleanup.
