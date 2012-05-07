@@ -1,4 +1,4 @@
-define "Gladiators", [ "ModifiedInput" ], ( Input ) ->
+define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 	nextEntityId = 0
 
 	maxChargeByAction =
@@ -42,17 +42,12 @@ define "Gladiators", [ "ModifiedInput" ], ( Input ) ->
 			for entityId, gladiator of gladiators
 				position = positions[ entityId ]
 
-				rectangleSize = module.selectionRectangleSize
+				mouseOverGladiator = Tools.pointInRectangle(
+					currentInput.pointerPosition,
+					position,
+					module.selectionRectangleSize )
 
-				minX = position[ 0 ] - rectangleSize[ 0 ] / 2
-				minY = position[ 1 ] - rectangleSize[ 1 ] / 2
-				maxX = position[ 0 ] + rectangleSize[ 0 ] / 2
-				maxY = position[ 1 ] + rectangleSize[ 1 ] / 2
-
-				pointerX = currentInput.pointerPosition[ 0 ]
-				pointerY = currentInput.pointerPosition[ 1 ]
-
-				if minX < pointerX < maxX and minY < pointerY < maxY
+				if mouseOverGladiator
 					gladiator.highlighted = true
 
 					selectionKeyDown =
