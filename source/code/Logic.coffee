@@ -14,6 +14,8 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 				gladiatorSelection:
 					currentlySelected: null
 
+				clickedButton: null
+
 				# Game entities are made up of components. The components will
 				# be stored in this map.
 				components: {}
@@ -70,3 +72,6 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 				gameState.components.gladiators,
 				gameState.components.positions,
 				gameState.gladiatorSelection )
+			Gladiators.handleActions(
+				gameState,
+				gameState.components.gladiators )

@@ -1,4 +1,4 @@
-define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools" ], ( Rendering, Camera, Vec2, Gladiators, Tools ) ->
+define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "ModifiedInput" ], ( Rendering, Camera, Vec2, Gladiators, Tools, Input ) ->
 	weaponOffsets =
 		"spear" :
 			front: [ -6,  8 ]
@@ -168,7 +168,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools" ], ( R
 	attackButtonOffset = [ 0,  0 ]
 	blockButtonOffset  = [ 0, 30 ]
 
-	appendActionButton = ( renderables, currentInput, text, center, active ) ->
+	appendActionButton = ( renderables, currentInput, text, center, active, gameState, buttonType, gladiatorId ) ->
 		alpha = switch active
 			when true  then "1.0"
 			when false then "0.5"
@@ -215,6 +215,11 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools" ], ( R
 
 			renderables.push( border )
 
+			if Input.isKeyDown( currentInput, "left mouse button" )
+				gameState.clickedButton =
+					button     : buttonType
+					gladiatorId: gladiatorId
+
 	appendActionButtons = ( renderables, currentInput, gladiators, positions, gameState ) ->
 		unless gameState.gladiatorSelection.currentlySelected == null
 			for entityId, gladiator of gladiators
@@ -234,13 +239,19 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools" ], ( R
 						currentInput,
 						"Attack",
 						attackButtonPosition,
-						true )
+						true,
+						gameState,
+						"attack",
+						entityId )
 					appendActionButton(
 						renderables,
 						currentInput,
 						"Block",
 						blockButtonPosition,
-						blockButtonActive )
+						blockButtonActive,
+						gameState,
+						"block",
+						entityId )
 
 
 	module =

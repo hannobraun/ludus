@@ -64,3 +64,15 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 
 				else
 					gladiator.highlighted = false
+
+		handleActions: ( gameState, gladiators ) ->
+			unless gameState.clickedButton == null
+				gladiator =
+					gladiators[ gameState.gladiatorSelection.currentlySelected ]
+				gameState.gladiatorSelection.currentlySelected = null
+				gladiator.selected = false
+
+				gladiator.action = gameState.clickedButton.button
+				gladiator.target = gameState.clickedButton.gladiatorId
+
+			gameState.clickedButton = null
