@@ -2,6 +2,21 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 	entityFactories =
 		"gladiator": Gladiators.createEntity
 
+	determineWinner = ( gameState, gladiators ) ->
+		aiGladiators     = 0
+		playerGladiators = 0
+
+		for entityId, gladiator of gladiators
+			switch gladiator.side
+				when "ai"     then aiGladiators += 1
+				when "player" then playerGladiators += 1
+
+		if aiGladiators == 0
+			gameState.winner = "player"
+		if playerGladiators == 0
+			gameState.winner = "ai"
+
+
 	# There are functions for creating and destroying entities in the Entities
 	# module. We will mostly use shortcuts however. They are declared here and
 	# defined further down in initGameState.
@@ -15,6 +30,8 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 					currentlySelected: null
 
 				clickedButton: null
+
+				winner: null
 
 				# Game entities are made up of components. The components will
 				# be stored in this map.
@@ -81,3 +98,6 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 			Gladiators.killGladiators(
 				gameState.components.gladiators,
 				destroyEntity )
+			determineWinner(
+				gameState,
+				gameState.components.gladiators )

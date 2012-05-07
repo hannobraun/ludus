@@ -253,6 +253,28 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "Modi
 						"block",
 						entityId )
 
+	appendWinnerNotice = ( renderables, winner ) ->
+		unless winner == null
+			text = switch winner
+				when "ai"     then "You lost!"
+				when "player" then "You won!"
+
+			youWonLost = Rendering.createRenderable( "text" )
+			youWonLost.position = [ 0, 0 ]
+			youWonLost.resource =
+				string  : text
+				centered: [ true, true ]
+
+				font     : "bold 45pt Arial Black"
+				textColor: "rgba(0,0,0)"
+				size     : 45
+
+				border     : false
+				borderColor: "rgb(0,0,0)"
+				borderWidth: 2
+
+			renderables.push( youWonLost )
+
 
 	module =
 		createRenderState: ->
@@ -278,6 +300,9 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "Modi
 				gameState.components.gladiators,
 				gameState.components.positions,
 				gameState )
+			appendWinnerNotice(
+				renderState.renderables,
+				gameState.winner )
 
 
 			Camera.transformRenderables(
