@@ -1,4 +1,4 @@
-define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering, Camera, Vec2, Gladiators ) ->
+define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools" ], ( Rendering, Camera, Vec2, Gladiators, Tools ) ->
 	weaponOffsets =
 		"spear" :
 			front: [ -6,  8 ]
@@ -168,7 +168,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 	attackButtonOffset = [ 0,  0 ]
 	blockButtonOffset  = [ 0, 30 ]
 
-	appendActionButton = ( renderables, text, center, active ) ->
+	appendActionButton = ( renderables, currentInput, text, center, active ) ->
 		alpha = switch active
 			when true  then "1.0"
 			when false then "0.5"
@@ -196,11 +196,26 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 			borderColor: "rgb(0,0,0)"
 			borderWidth: 2
 
-
 		renderables.push( button )
 		renderables.push( buttonText )
 
-	appendActionButtons = ( renderables, gladiators, positions ) ->
+
+		pointerOverButton = Tools.pointInRectangle(
+			currentInput.pointerPosition,
+			center,
+			actionButtonSize )
+
+		if pointerOverButton
+			border = Rendering.createRenderable( "rectangleOutline" )
+			border.position = position
+			border.resource =
+				size     : actionButtonSize
+				color    : "rgb(0,0,255)"
+				lineWidth: 2
+
+			renderables.push( border )
+
+	appendActionButtons = ( renderables, currentInput, gladiators, positions ) ->
 		for entityId, gladiator of gladiators
 			if gladiator.highlighted and gladiator.side == "ai"
 				position = positions[ entityId ]
@@ -213,11 +228,13 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 
 				appendActionButton(
 					renderables,
+					currentInput,
 					"Attack",
 					attackButtonPosition,
 					true )
 				appendActionButton(
 					renderables,
+					currentInput,
 					"Block",
 					blockButtonPosition,
 					false )
@@ -229,7 +246,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				camera: Camera.createCamera()
 				renderables: []
 
-		updateRenderState: ( renderState, gameState ) ->
+		updateRenderState: ( renderState, gameState, currentInput ) ->
 			renderState.renderables.length = 0
 
 
@@ -243,6 +260,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				gameState.components.positions )
 			appendActionButtons(
 				renderState.renderables,
+				currentInput,
 				gameState.components.gladiators,
 				gameState.components.positions )
 
