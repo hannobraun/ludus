@@ -12,8 +12,13 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 
 	chargePerS = 20
 
+	weaponDamage =
+		"spear" : 30
+		"sword" : 20
+		"shield": 10
+
 	module =
-		maxHealth: 50
+		maxHealth: 150
 
 		maxChargeByAction: maxChargeByAction
 		maxCharge: maxCharge
@@ -30,9 +35,10 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 					"positions": args.position
 					"gladiators":
 						side  : args.side
-						weapon: args.weapon
 						facing: args.facing
+
 						health: module.maxHealth
+						weapon: args.weapon
 
 						highlighted: false
 						selected   : false
@@ -87,6 +93,16 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 				maxCharge = maxChargeByAction[ gladiator.action ]
 				if gladiator.charge >= maxCharge
 					gladiator.charge = 0
+
+					target = gladiators[ gladiator.target ]
+					damage = weaponDamage[ gladiator.weapon ]
+
+					switch gladiator.action
+						when "attack"
+							target.health -= damage
+						when "block"
+							""
+
 					gladiator.action = switch gladiator.action
 						when "cooldown" then "ready"
 						else "cooldown"
