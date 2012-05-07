@@ -56,7 +56,7 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 					position,
 					module.selectionRectangleSize )
 
-				if mouseOverGladiator
+				if mouseOverGladiator and gladiator.action == "ready"
 					gladiator.highlighted = true
 
 					selectionKeyDown =
