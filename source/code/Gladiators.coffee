@@ -39,17 +39,18 @@ define "Gladiators", [], ->
 
 		applyInput: ( currentInput, gladiators, positions ) ->
 			for entityId, gladiator of gladiators
-				position = positions[ entityId ]
+				if gladiator.side == "player" and gladiator.action == "ready"
+					position = positions[ entityId ]
 
-				minX = position[ 0 ] - module.selectionRectangleSize[ 0 ] / 2
-				minY = position[ 1 ] - module.selectionRectangleSize[ 1 ] / 2
-				maxX = position[ 0 ] + module.selectionRectangleSize[ 0 ] / 2
-				maxY = position[ 1 ] + module.selectionRectangleSize[ 1 ] / 2
+					minX = position[ 0 ] - module.selectionRectangleSize[ 0 ] / 2
+					minY = position[ 1 ] - module.selectionRectangleSize[ 1 ] / 2
+					maxX = position[ 0 ] + module.selectionRectangleSize[ 0 ] / 2
+					maxY = position[ 1 ] + module.selectionRectangleSize[ 1 ] / 2
 
-				pointerX = currentInput.pointerPosition[ 0 ]
-				pointerY = currentInput.pointerPosition[ 1 ]
+					pointerX = currentInput.pointerPosition[ 0 ]
+					pointerY = currentInput.pointerPosition[ 1 ]
 
-				if minX < pointerX < maxX && minY < pointerY < maxY
-					gladiator.selected = true
-				else
-					gladiator.selected = false
+					if minX < pointerX < maxX and minY < pointerY < maxY
+						gladiator.selected = true
+					else
+						gladiator.selected = false
