@@ -14,6 +14,9 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 				# Change this, if you want the camera to point somewhere else.
 				focus: [ 0, 0 ]
 
+				gladiatorSelection:
+					currentlySelected: null
+
 				# Game entities are made up of components. The components will
 				# be stored in this map.
 				components: {}
@@ -68,4 +71,5 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 			Gladiators.applyInput(
 				currentInput,
 				gameState.components.gladiators,
-				gameState.components.positions )
+				gameState.components.positions,
+				gameState.gladiatorSelection )

@@ -138,10 +138,15 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				gladiator,
 				position )
 
-	appendSelector = ( renderables, gladiators, positions ) ->
+	appendSelection = ( renderables, gladiators, positions ) ->
 		for entityId, gladiator of gladiators
-			if gladiator.selected
+			if gladiator.highlighted or gladiator.selected
 				position = positions[ entityId ]
+
+				color = if gladiator.selected
+					"rgb(255,255,255)"
+				else
+					"rgb(0,0,0)"
 
 				selectionPosition = Vec2.copy( position )
 				Vec2.subtract( selectionPosition, selectionOffset )
@@ -150,7 +155,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				selection.position = selectionPosition
 				selection.resource =
 					size : Gladiators.selectionRectangleSize
-					color: "rgb(0,0,0)"
+					color: color
 
 				renderables.push( selection )
 
@@ -170,7 +175,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				renderState.renderables,
 				gameState.components.gladiators,
 				gameState.components.positions )
-			appendSelector(
+			appendSelection(
 				renderState.renderables,
 				gameState.components.gladiators,
 				gameState.components.positions )

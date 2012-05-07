@@ -1,4 +1,4 @@
-define "Gladiators", [], ->
+define "Gladiators", [ "ModifiedInput" ], ( Input ) ->
 	nextEntityId = 0
 
 	maxChargeByAction =
@@ -32,12 +32,13 @@ define "Gladiators", [], ->
 						facing: args.facing
 						health: module.maxHealth
 
-						selected: false
+						highlighted: false
+						selected   : false
 
 						action: "ready"
 						charge: 0
 
-		applyInput: ( currentInput, gladiators, positions ) ->
+		applyInput: ( currentInput, gladiators, positions, selection ) ->
 			for entityId, gladiator of gladiators
 				if gladiator.side == "player" and gladiator.action == "ready"
 					position = positions[ entityId ]
@@ -51,6 +52,16 @@ define "Gladiators", [], ->
 					pointerY = currentInput.pointerPosition[ 1 ]
 
 					if minX < pointerX < maxX and minY < pointerY < maxY
-						gladiator.selected = true
+						gladiator.highlighted = true
+
+						if Input.isKeyDown( currentInput, "left mouse button" )
+							previouslySelected =
+								gladiators[ selection.currentlySelected ]
+							if previouslySelected?
+								previouslySelected.selected = false
+
+							gladiator.selected = true
+							selection.currentlySelected = entityId
+
 					else
-						gladiator.selected = false
+						gladiator.highlighted = false
