@@ -40,30 +40,32 @@ define "Gladiators", [ "ModifiedInput" ], ( Input ) ->
 
 		applyInput: ( currentInput, gladiators, positions, selection ) ->
 			for entityId, gladiator of gladiators
-				if gladiator.side == "player" and gladiator.action == "ready"
-					position = positions[ entityId ]
+				position = positions[ entityId ]
 
-					rectangleSize = module.selectionRectangleSize
+				rectangleSize = module.selectionRectangleSize
 
-					minX = position[ 0 ] - rectangleSize[ 0 ] / 2
-					minY = position[ 1 ] - rectangleSize[ 1 ] / 2
-					maxX = position[ 0 ] + rectangleSize[ 0 ] / 2
-					maxY = position[ 1 ] + rectangleSize[ 1 ] / 2
+				minX = position[ 0 ] - rectangleSize[ 0 ] / 2
+				minY = position[ 1 ] - rectangleSize[ 1 ] / 2
+				maxX = position[ 0 ] + rectangleSize[ 0 ] / 2
+				maxY = position[ 1 ] + rectangleSize[ 1 ] / 2
 
-					pointerX = currentInput.pointerPosition[ 0 ]
-					pointerY = currentInput.pointerPosition[ 1 ]
+				pointerX = currentInput.pointerPosition[ 0 ]
+				pointerY = currentInput.pointerPosition[ 1 ]
 
-					if minX < pointerX < maxX and minY < pointerY < maxY
-						gladiator.highlighted = true
+				if minX < pointerX < maxX and minY < pointerY < maxY
+					gladiator.highlighted = true
 
-						if Input.isKeyDown( currentInput, "left mouse button" )
-							previouslySelected =
-								gladiators[ selection.currentlySelected ]
-							if previouslySelected?
-								previouslySelected.selected = false
+					selectionKeyDown =
+						Input.isKeyDown( currentInput, "left mouse button" )
 
-							gladiator.selected = true
-							selection.currentlySelected = entityId
+					if gladiator.side == "player" and selectionKeyDown
+						previouslySelected =
+							gladiators[ selection.currentlySelected ]
+						if previouslySelected?
+							previouslySelected.selected = false
 
-					else
-						gladiator.highlighted = false
+						gladiator.selected = true
+						selection.currentlySelected = entityId
+
+				else
+					gladiator.highlighted = false

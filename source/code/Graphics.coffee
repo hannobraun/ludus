@@ -138,26 +138,28 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				gladiator,
 				position )
 
-	appendSelection = ( renderables, gladiators, positions ) ->
+	appendGladiatorSelection = ( renderables, gladiators, positions ) ->
 		for entityId, gladiator of gladiators
-			if gladiator.highlighted or gladiator.selected
-				position = positions[ entityId ]
+			if gladiator.side == "player"
+				if gladiator.highlighted or gladiator.selected
+					position = positions[ entityId ]
 
-				color = if gladiator.selected
-					"rgb(255,255,255)"
-				else
-					"rgb(0,0,0)"
+					color = if gladiator.selected
+						"rgb(255,255,255)"
+					else
+						"rgb(0,0,0)"
 
-				selectionPosition = Vec2.copy( position )
-				Vec2.subtract( selectionPosition, selectionOffset )
+					selectionPosition = Vec2.copy( position )
+					Vec2.subtract( selectionPosition, selectionOffset )
 
-				selection = Rendering.createRenderable( "rectangleOutline" )
-				selection.position = selectionPosition
-				selection.resource =
-					size : Gladiators.selectionRectangleSize
-					color: color
+					selection = Rendering.createRenderable( "rectangleOutline" )
+					selection.position = selectionPosition
+					selection.resource =
+						size : Gladiators.selectionRectangleSize
+						color: color
 
-				renderables.push( selection )
+					renderables.push( selection )
+
 
 	module =
 		createRenderState: ->
@@ -173,7 +175,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				renderState.renderables,
 				gameState.components.gladiators,
 				gameState.components.positions )
-			appendSelection(
+			appendGladiatorSelection(
 				renderState.renderables,
 				gameState.components.gladiators,
 				gameState.components.positions )
