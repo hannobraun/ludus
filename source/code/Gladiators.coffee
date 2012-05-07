@@ -4,7 +4,7 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 	maxChargeByAction =
 		"attack"  : 100
 		"block"   : 20
-		"cooldown": 50
+		"cooldown": 20
 
 	maxCharge = 0
 	for action, maxChargeForAction of maxChargeByAction
