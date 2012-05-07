@@ -65,4 +65,7 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 				side    : "player" } )
 
 		updateGameState: ( gameState, currentInput, timeInS, passedTimeInS ) ->
-			
+			Gladiators.applyInput(
+				currentInput,
+				gameState.components.gladiators,
+				gameState.components.positions )

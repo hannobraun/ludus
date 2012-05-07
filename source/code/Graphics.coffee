@@ -16,9 +16,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 		"block"   : "Blocking..."
 		"cooldown": ""
 
-	selectionSize = [ 110, 150 ]
-
-	selectionOffset = Vec2.copy( selectionSize )
+	selectionOffset = Vec2.copy( Gladiators.selectionRectangleSize )
 	Vec2.scale( selectionOffset, 0.5 )
 
 	appendBar = ( renderables, centerPosition, maxWidth, width, height, color ) ->
@@ -150,7 +148,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				selection = Rendering.createRenderable( "rectangleOutline" )
 				selection.position = selectionPosition
 				selection.resource =
-					size : selectionSize
+					size : Gladiators.selectionRectangleSize
 					color: "rgb(0,0,0)"
 
 				renderables.push( selection )
