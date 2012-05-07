@@ -166,8 +166,6 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				renderables: []
 
 		updateRenderState: ( renderState, gameState ) ->
-			renderState.camera.position = Vec2.copy( gameState.focus )
-
 			renderState.renderables.length = 0
 
 

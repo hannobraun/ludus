@@ -11,9 +11,6 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 	module =
 		createGameState: ->
 			gameState =
-				# Change this, if you want the camera to point somewhere else.
-				focus: [ 0, 0 ]
-
 				gladiatorSelection:
 					currentlySelected: null
 
