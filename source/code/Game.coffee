@@ -1,4 +1,4 @@
-define "Game", [ "Images", "Rendering", "Input", "MainLoop", "Logic", "Graphics" ], ( Images, Rendering, Input, MainLoop, Logic, Graphics )->
+define "Game", [ "Images", "ModifiedRendering", "ModifiedInput", "MainLoop", "Logic", "Graphics" ], ( Images, Rendering, Input, MainLoop, Logic, Graphics )->
 	imagePaths = [
 		"images/gladiator-front.png"
 		"images/spear-front.png"
@@ -53,7 +53,7 @@ define "Game", [ "Images", "Rendering", "Input", "MainLoop", "Logic", "Graphics"
 			"space" ] )
 
 		display      = Rendering.createDisplay()
-		currentInput = Input.createCurrentInput()
+		currentInput = Input.createCurrentInput( display )
 		gameState    = Logic.createGameState()
 		renderState  = Graphics.createRenderState()
 

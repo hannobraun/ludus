@@ -1,4 +1,4 @@
-define "Logic", [ "Input", "Entities", "Gladiators" ], ( Input, Entities, Gladiators ) ->
+define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities, Gladiators ) ->
 	entityFactories =
 		"gladiator": Gladiators.createEntity
 
