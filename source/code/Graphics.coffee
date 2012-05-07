@@ -83,7 +83,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 			status.position = statusPosition
 			status.resource =
 				string  : actionTexts[ gladiator.action ]
-				centered: true
+				centered: [ true, false ]
 				border  : false
 
 				font       : "bold 13pt Arial Black"
@@ -160,6 +160,62 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 
 					renderables.push( selection )
 
+	actionButtonSize = [ 60, 20 ]
+
+	actionButtonOffset = Vec2.copy( actionButtonSize )
+	Vec2.scale( actionButtonOffset, -0.5 )
+
+	attackButtonOffset = [ 0,  0 ]
+	blockButtonOffset  = [ 0, 30 ]
+
+	appendActionButton = ( renderables, text, center ) ->
+		position = Vec2.copy( center )
+		Vec2.add( position, actionButtonOffset )
+
+		button = Rendering.createRenderable( "rectangle" )
+		button.position = position
+		button.resource =
+			size : actionButtonSize
+			color: "rgb(255,255,0)"
+
+		buttonText = Rendering.createRenderable( "text" )
+		buttonText.position = center
+		buttonText.resource =
+			string  : text
+			centered: [ true, true ]
+
+			font     : "bold 13pt Arial Black"
+			textColor: "rgb(0,0,0)"
+			size     : 13
+
+			border     : false
+			borderColor: "rgb(0,0,0)"
+			borderWidth: 2
+
+
+		renderables.push( button )
+		renderables.push( buttonText )
+
+	appendActionButtons = ( renderables, gladiators, positions ) ->
+		for entityId, gladiator of gladiators
+			if gladiator.highlighted and gladiator.side == "ai"
+				position = positions[ entityId ]
+
+				attackButtonPosition = Vec2.copy( position )
+				Vec2.add( attackButtonPosition, attackButtonOffset )
+
+				blockButtonPosition = Vec2.copy( position )
+				Vec2.add( blockButtonPosition, blockButtonOffset )
+
+				appendActionButton(
+					renderables,
+					"Attack",
+					attackButtonPosition )
+				appendActionButton(
+					renderables,
+					"Block",
+					blockButtonPosition )
+
 
 	module =
 		createRenderState: ->
@@ -176,6 +232,10 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators" ], ( Rendering,
 				gameState.components.gladiators,
 				gameState.components.positions )
 			appendGladiatorSelection(
+				renderState.renderables,
+				gameState.components.gladiators,
+				gameState.components.positions )
+			appendActionButtons(
 				renderState.renderables,
 				gameState.components.gladiators,
 				gameState.components.positions )
