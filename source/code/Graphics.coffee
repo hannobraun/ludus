@@ -205,7 +205,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools" ], ( R
 			center,
 			actionButtonSize )
 
-		if pointerOverButton
+		if pointerOverButton and active
 			border = Rendering.createRenderable( "rectangleOutline" )
 			border.position = position
 			border.resource =
