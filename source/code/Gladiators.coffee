@@ -10,6 +10,8 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 	for action, maxChargeForAction of maxChargeByAction
 		maxCharge = Math.max( maxCharge, maxChargeForAction )
 
+	chargePerS = 60
+
 	module =
 		maxHealth: 50
 
@@ -76,3 +78,13 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 				gladiator.target = gameState.clickedButton.gladiatorId
 
 			gameState.clickedButton = null
+
+		updateActions: ( gladiators, passedTimeInS ) ->
+			for entityId, gladiator of gladiators
+				unless gladiator.action == "ready"
+					gladiator.charge += chargePerS * passedTimeInS
+
+				maxCharge = maxChargeByAction[ gladiator.action ]
+				if gladiator.charge >= maxCharge
+					gladiator.charge = 0
+					gladiator.action = "ready"

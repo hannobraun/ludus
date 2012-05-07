@@ -75,3 +75,6 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 			Gladiators.handleActions(
 				gameState,
 				gameState.components.gladiators )
+			Gladiators.updateActions(
+				gameState.components.gladiators,
+				passedTimeInS )
