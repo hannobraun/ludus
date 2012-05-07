@@ -47,6 +47,20 @@ define "Game", [ "Images", "ModifiedRendering", "ModifiedInput", "MainLoop", "Lo
 					xPos,
 					renderable.position[ 1 ] )
 
+		Rendering.drawFunctions[ "filledCircle" ] = ( renderable, context, circle ) ->
+			context.fillStyle = circle.color
+
+			context.beginPath()
+			context.arc(
+				renderable.position[ 0 ],
+				renderable.position[ 1 ],
+				circle.radius,
+				0,
+				2*Math.PI,
+				false )
+			context.fill()
+			context.closePath()
+
 		# Some keys have unwanted default behavior on website, like scrolling.
 		# Fortunately we can tell the Input module to prevent the default
 		# behavior of some keys.
