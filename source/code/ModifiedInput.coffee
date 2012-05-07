@@ -100,12 +100,21 @@ define "ModifiedInput", [], ->
 		221: "close braket",
 		222: "single quote"
 
+	mouseKeyNamesByCode =
+		0: "left mouse button"
+		1: "middle mouse button"
+		2: "right mouse button"
+
 	keyCodesByName = {}
 	for keyCode, keyName of keyNamesByCode
 		keyCodesByName[ keyName ] = parseInt( keyCode )
 
+	mouseKeyCodesByName = {}
+	for keyCode, keyName of mouseKeyNamesByCode
+		mouseKeyCodesByName[ keyName ] = parseInt( keyCode )
+
 	ensureKeyNameIsValid = ( keyName ) ->
-		unless keyCodesByName[ keyName ]?
+		unless keyCodesByName[ keyName ]? or mouseKeyCodesByName[ keyName ]?
 			throw "\"#{ keyName }\" is not a valid key name."
 
 	keyNameArrayToKeyCodeSet = ( keyNameArray ) ->
@@ -118,8 +127,11 @@ define "ModifiedInput", [], ->
 		keyCodeSet
 
 	module =
-		keyNamesByCode: keyNamesByCode
-		keyCodesByName: keyCodesByName
+		keyNamesByCode     : keyNamesByCode
+		mouseKeyNamesByCode: mouseKeyNamesByCode
+
+		keyCodesByName     : keyCodesByName
+		mouseKeyCodesByName: mouseKeyCodesByName
 
 		preventDefaultFor: ( keyNames ) ->
 			keyCodeSet = keyNameArrayToKeyCodeSet( keyNames )
@@ -139,6 +151,14 @@ define "ModifiedInput", [], ->
 
 			window.addEventListener "keyup", ( keyUpEvent ) ->
 				keyName = keyNamesByCode[ keyUpEvent.keyCode ]
+				currentInput.pressedKeys[ keyName ] = false
+
+			window.addEventListener "mousedown", ( event ) ->
+				keyName = mouseKeyNamesByCode[ event.button ]
+				currentInput.pressedKeys[ keyName ] = true
+
+			window.addEventListener "mouseup", ( event ) ->
+				keyName = mouseKeyNamesByCode[ event.button ]
 				currentInput.pressedKeys[ keyName ] = false
 
 			display.canvas.addEventListener "mousemove", ( mouseMoveEvent ) ->
