@@ -113,6 +113,11 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "Modi
 			statusPosition = Vec2.copy( gladiatorPosition )
 			Vec2.add( statusPosition, [ 0, 50 ] )
 
+			color = if gladiator.action == "ready"
+				"rgb(0,255,0)"
+			else
+				"rgb(0,0,0)"
+
 			status = Rendering.createRenderable( "text" )
 			status.position = statusPosition
 			status.resource =
@@ -121,7 +126,7 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "Modi
 				border  : false
 
 				font       : "bold 13pt Arial Black"
-				textColor  : "rgb(0,0,0)"
+				textColor  : color
 				borderColor: "rgb(0,0,0)"
 				borderWidth: 2
 
