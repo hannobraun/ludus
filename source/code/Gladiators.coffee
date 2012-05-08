@@ -17,6 +17,11 @@ define "Gladiators", [ "ModifiedInput", "Tools", "Vec2" ], ( Input, Tools, Vec2 
 		"sword" : 20
 		"shield": 10
 
+	weaponBlock =
+		"spear" : 10
+		"sword" : 20
+		"shield": 30
+
 	module =
 		maxHealth: 150
 
@@ -108,7 +113,17 @@ define "Gladiators", [ "ModifiedInput", "Tools", "Vec2" ], ( Input, Tools, Vec2 
 							when "attack"
 								target.health -= damage
 							when "block"
-								""
+								enemyDamage = weaponDamage[ target.weapon ]
+								damageBlock = weaponBlock[ gladiator.weapon ]
+								damageAfterBlock =
+									Math.max( 0, enemyDamage - damageBlock )
+
+								target.action = "ready"
+								target.charge = 0
+								
+								gladiator.health -= damageAfterBlock
+
+
 
 						gladiator.action = switch gladiator.action
 							when "cooldown" then "ready"
