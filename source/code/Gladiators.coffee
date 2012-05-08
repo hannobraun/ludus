@@ -120,7 +120,7 @@ define "Gladiators", [ "ModifiedInput", "Tools", "Vec2" ], ( Input, Tools, Vec2 
 
 								target.action = "ready"
 								target.charge = 0
-								
+
 								gladiator.health -= damageAfterBlock
 
 
@@ -146,26 +146,68 @@ define "Gladiators", [ "ModifiedInput", "Tools", "Vec2" ], ( Input, Tools, Vec2 
 			if aiControl.nextAction <= 0
 				aiControl.nextAction = Math.random() * 3
 
-				playerGladiators  = []
+				attackingPlayerGladiators = []
+				allPlayerGladiators       = []
+
 				readyAiGladiators = []
 
 				for entityId, gladiator of gladiators
 					if gladiator.side == "player"
-						playerGladiators.push( {
+						allPlayerGladiators.push( {
 							id: entityId
 							gladiator: gladiator } )
+
+						if gladiator.action == "attack"
+							attackingPlayerGladiators.push( {
+								id: entityId
+								gladiator: gladiator } )
 
 					if gladiator.side == "ai" and gladiator.action == "ready"
 						readyAiGladiators.push( {
 							id: entityId
 							gladiator: gladiator } )
 
-				if readyAiGladiators.length > 0 and playerGladiators.length > 0
+				if readyAiGladiators.length > 0 and allPlayerGladiators.length > 0
 					gladiator = readyAiGladiators[ Math.floor( Math.random() * readyAiGladiators.length ) ].gladiator
-					targetId = playerGladiators[ Math.floor( Math.random() * playerGladiators.length ) ].id
 
-					gladiator.action = "attack"
-					gladiator.target = targetId
+
+					action = null
+
+					if attackingPlayerGladiators.length > 0
+						attackProbability = 0
+						blockProbability  = 0
+
+						switch gladiator.weapon
+							when "spear"
+								attackProbability = 3
+								blockProbability  = 1
+							when "sword"
+								attackProbability = 2
+								blockProbability  = 2
+							when "shield"
+								attackProbability = 1
+								blockProbability  = 3
+
+						if Math.random() * ( attackProbability + blockProbability ) < attackProbability
+							action = "attack"
+						else
+							action = "block"
+					else
+						action = "attack"
+
+
+					target = null
+
+					potentialTargets = if action == "block"
+						attackingPlayerGladiators
+					else
+						allPlayerGladiators
+
+					target = potentialTargets[ Math.floor( Math.random() * potentialTargets.length ) ].id			
+					
+
+					gladiator.action = action
+					gladiator.target = target
 
 					gladiator.targetPosition =
-						Vec2.copy( positions[ targetId ] )
+						Vec2.copy( positions[ target ] )
