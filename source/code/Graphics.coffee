@@ -261,9 +261,14 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "Modi
 	appendActionButtons = ( renderables, currentInput, gladiators, positions, gameState ) ->
 		unless gameState.gladiatorSelection.currentlySelected == null
 			for entityId, gladiator of gladiators
-				if gladiator.highlighted and gladiator.side == "ai"
-					position = positions[ entityId ]
+				position = positions[ entityId ]
 
+				mouseOverGladiator = Tools.pointInRectangle(
+					currentInput.pointerPosition,
+					position,
+					Gladiators.selectionRectangleSize )
+
+				if mouseOverGladiator and gladiator.side == "ai"
 					attackButtonPosition = Vec2.copy( position )
 					Vec2.add( attackButtonPosition, attackButtonOffset )
 
