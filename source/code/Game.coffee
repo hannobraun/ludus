@@ -87,7 +87,8 @@ define "Game", [ "Images", "ModifiedRendering", "ModifiedInput", "MainLoop", "Lo
 			Graphics.updateRenderState(
 				renderState,
 				gameState,
-				currentInput )
+				currentInput,
+				passedTimeInS )
 			Rendering.render(
 				Rendering.drawFunctions,
 				display,

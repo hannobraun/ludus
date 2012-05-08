@@ -41,6 +41,8 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 						weapon: args.weapon
 						target: null
 
+						previousTarget: null
+
 						highlighted: false
 						selected   : false
 
@@ -109,7 +111,8 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 							when "cooldown" then "ready"
 							else "cooldown"
 
-						gladiator.target = null
+						gladiator.previousTarget = gladiator.target
+						gladiator.target         = null
 				else
 					gladiator.target = null
 					gladiator.charge = 0

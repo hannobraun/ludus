@@ -38,7 +38,41 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "Modi
 		renderables.push( bar )
 		renderables.push( border )
 
-	appendGladiator = ( renderables, position, gladiator ) ->
+	applyGladiatorAnimation = ( gladiator, position, gladiatorId, targetPosition, animations, passedTimeInS ) ->
+		if gladiator.action == "cooldown"
+			unless animations[ gladiatorId ]?
+				animations[ gladiatorId ] =
+					time: 0
+
+			animation = animations[ gladiatorId ]
+
+			animation.time += passedTimeInS
+
+			animationOffset = Vec2.copy( targetPosition )
+			Vec2.subtract( animationOffset, position )
+			Vec2.scale( animationOffset, 0.75 )
+
+			t = gladiator.charge / Gladiators.maxChargeByAction[ "cooldown" ]
+
+			scaleFactor = if t <= 0.5
+				t*2
+			else
+				1 - ( t - 0.5 ) * 2
+
+			Vec2.scale( animationOffset, scaleFactor )
+
+			Vec2.add( position, animationOffset )
+
+
+	appendGladiator = ( renderables, position, gladiator, gladiatorId, targetPosition, animations, passedTimeInS ) ->
+		applyGladiatorAnimation(
+			gladiator,
+			position,
+			gladiatorId,
+			targetPosition,
+			animations,
+			passedTimeInS )
+
 		renderable = Rendering.createRenderable( "image" )
 		renderable.resourceId = "images/gladiator-#{ gladiator.facing }.png"
 		renderable.position   = position
@@ -116,14 +150,18 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "Modi
 				height,
 				color )
 
-	appendGladiators = ( renderables, gladiators, positions ) ->
+	appendGladiators = ( renderables, gladiators, positions, animations, passedTimeInS ) ->
 		for entityId, gladiator of gladiators
-			position = positions[ entityId ]
+			position = Vec2.copy( positions[ entityId ] )
 
 			appendGladiator(
 				renderables,
 				position,
-				gladiator )
+				gladiator,
+				entityId,
+				positions[ gladiator.previousTarget ]
+				animations,
+				passedTimeInS )
 			appendWeapon(
 				renderables,
 				gladiator.weapon,
@@ -296,15 +334,18 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "Modi
 			renderState =
 				camera: Camera.createCamera()
 				renderables: []
+				animations: {}
 
-		updateRenderState: ( renderState, gameState, currentInput ) ->
+		updateRenderState: ( renderState, gameState, currentInput, passedTimeInS ) ->
 			renderState.renderables.length = 0
 
 
 			appendGladiators(
 				renderState.renderables,
 				gameState.components.gladiators,
-				gameState.components.positions )
+				gameState.components.positions,
+				renderState.animations,
+				passedTimeInS )
 			appendGladiatorSelection(
 				renderState.renderables,
 				gameState.components.gladiators,
