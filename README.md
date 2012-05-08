@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Ludus is my entry for the [#bbg game creation challenge 5](
+Ludus is my entry for the [fifth montly #bbg game creation challenge](
 https://github.com/hughfdjackson/bbgchallenge5), which ran from
 15th April to 15th May 2012. During that timeframe each participant was allowed
 to spend a total of 12 hours on his/her game.
@@ -24,7 +24,7 @@ enjoy it nonetheless.
 The game was written by [Hanno Braun](http://hannobraun.com) using the [noop
 HTML5 game library](https://github.com/hbraun/noop).
 
-*Play it here: [http://hbraun.github.com/ludus](http://hbraun.github.com/ludus)*
+Play it here: [http://hbraun.github.com/ludus](http://hbraun.github.com/ludus)
 
 
 ## Controls
