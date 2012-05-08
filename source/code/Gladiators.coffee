@@ -1,4 +1,4 @@
-define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
+define "Gladiators", [ "ModifiedInput", "Tools", "Vec2" ], ( Input, Tools, Vec2 ) ->
 	nextEntityId = 0
 
 	maxChargeByAction =
@@ -41,7 +41,7 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 						weapon: args.weapon
 						target: null
 
-						previousTarget: null
+						targetPosition: null
 
 						highlighted: false
 						selected   : false
@@ -76,7 +76,7 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 				else
 					gladiator.highlighted = false
 
-		handleActions: ( gameState, gladiators ) ->
+		handleActions: ( gameState, gladiators, positions ) ->
 			unless gameState.clickedButton == null
 				gladiator =
 					gladiators[ gameState.gladiatorSelection.currentlySelected ]
@@ -85,6 +85,9 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 
 				gladiator.action = gameState.clickedButton.button
 				gladiator.target = gameState.clickedButton.gladiatorId
+
+				gladiator.targetPosition =
+					Vec2.copy( positions[ gladiator.target ] )
 
 			gameState.clickedButton = null
 
@@ -111,8 +114,7 @@ define "Gladiators", [ "ModifiedInput", "Tools" ], ( Input, Tools ) ->
 							when "cooldown" then "ready"
 							else "cooldown"
 
-						gladiator.previousTarget = gladiator.target
-						gladiator.target         = null
+						gladiator.target = null
 				else
 					gladiator.target = null
 					gladiator.charge = 0
