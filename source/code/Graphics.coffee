@@ -48,8 +48,6 @@ define "Graphics", [ "Rendering", "Camera", "Vec2", "Gladiators", "Tools", "Modi
 
 			animation.time += passedTimeInS
 
-			console.log( targetPosition )
-
 			animationOffset = Vec2.copy( targetPosition )
 			Vec2.subtract( animationOffset, position )
 			Vec2.scale( animationOffset, 0.75 )

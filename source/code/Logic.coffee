@@ -39,6 +39,9 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 				winner: null
 				reset : false
 
+				aiControl:
+					nextAction: 0
+
 				# Game entities are made up of components. The components will
 				# be stored in this map.
 				components: {}
@@ -105,6 +108,11 @@ define "Logic", [ "ModifiedInput", "Entities", "Gladiators" ], ( Input, Entities
 			Gladiators.killGladiators(
 				gameState.components.gladiators,
 				destroyEntity )
+			Gladiators.updateAi(
+				gameState.components.gladiators,
+				gameState.components.positions,
+				gameState.aiControl,
+				passedTimeInS )
 
 			determineWinner(
 				gameState,

@@ -124,3 +124,33 @@ define "Gladiators", [ "ModifiedInput", "Tools", "Vec2" ], ( Input, Tools, Vec2 
 			for entityId, gladiator of gladiators
 				if gladiator.health <= 0
 					destroyEntity( entityId )
+
+		updateAi: ( gladiators, positions, aiControl, passedTimeInS ) ->
+			aiControl.nextAction -= passedTimeInS
+
+			if aiControl.nextAction <= 0
+				aiControl.nextAction = Math.random() * 3
+
+				playerGladiators  = []
+				readyAiGladiators = []
+
+				for entityId, gladiator of gladiators
+					if gladiator.side == "player"
+						playerGladiators.push( {
+							id: entityId
+							gladiator: gladiator } )
+
+					if gladiator.side == "ai" and gladiator.action == "ready"
+						readyAiGladiators.push( {
+							id: entityId
+							gladiator: gladiator } )
+
+				if readyAiGladiators.length > 0
+					gladiator = readyAiGladiators[ Math.floor( Math.random() * readyAiGladiators.length ) ].gladiator
+					targetId = playerGladiators[ Math.floor( Math.random() * playerGladiators.length ) ].id
+
+					gladiator.action = "attack"
+					gladiator.target = targetId
+
+					gladiator.targetPosition =
+						Vec2.copy( positions[ targetId ] )
