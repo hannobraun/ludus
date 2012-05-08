@@ -145,7 +145,7 @@ define "Gladiators", [ "ModifiedInput", "Tools", "Vec2" ], ( Input, Tools, Vec2 
 							id: entityId
 							gladiator: gladiator } )
 
-				if readyAiGladiators.length > 0
+				if readyAiGladiators.length > 0 and playerGladiators.length > 0
 					gladiator = readyAiGladiators[ Math.floor( Math.random() * readyAiGladiators.length ) ].gladiator
 					targetId = playerGladiators[ Math.floor( Math.random() * playerGladiators.length ) ].id
 
